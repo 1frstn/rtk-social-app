@@ -1,6 +1,5 @@
-import { useDispatch, useSelector } from "react-redux"
-import {fetchPosts, getPostsError, getPostsStatus, selectAllPosts} from "./postsSlice";
-import { useEffect } from "react";
+import { useSelector } from "react-redux"
+import { getPostsError, getPostsStatus, selectAllPosts} from "./postsSlice";
 import PostsExpert from "./PostsExpert";
 
 const PostsList = () => {
@@ -8,13 +7,7 @@ const PostsList = () => {
     const postsStatus = useSelector(getPostsStatus)
     const error = useSelector(getPostsError)
     
-    const dispatch = useDispatch();
-
-    useEffect(() =>{
-      if(postsStatus === 'idle'){
-        dispatch(fetchPosts())
-      }
-    },[postsStatus,dispatch])
+   
 
 
    let content ;
