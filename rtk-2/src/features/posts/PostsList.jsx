@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import {fetchPosts, getPostsError, getPostsStatus, selectAllPosts} from "./postsSlice";
 import { useEffect } from "react";
+import PostsExpert from "./PostsExpert";
 
 const PostsList = () => {
     const posts = useSelector(selectAllPosts)
@@ -16,16 +17,20 @@ const PostsList = () => {
     },[postsStatus,dispatch])
 
 
-    const orederedPost = posts.slice().sort((a,b) => b.date.localeCompare(a.date));
- 
-    const renderPosts = orederedPost.map(post => (
-      
-    ))
+   let content ;
+   if(postsStatus === 'loading'){
+    content = <p>Loading...</p>;
+   } else if (postsStatus === 'succeeded'){
+        const orderedPosts = posts.slice().sort((a,b) => b.date.localeCompare(a.date));
+        content = orderedPosts.map((post) => <PostsExpert key={post.id} post={post} />)
+   } else if (postsStatus === 'failed'){
+        content = <p>{error}</p>
+   }
 
     return (
       <section>
         <h2>Posts</h2>
-        {renderPosts}
+        {content}
       </section>
     )
 }
